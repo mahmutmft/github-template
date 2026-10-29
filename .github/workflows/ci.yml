@@ -1,0 +1,14 @@
+# Example CI workflow. Enable and customize it for the project's actual language / commands.
+# This file intentionally does not claim that project tests passed before commands are configured.
+name: Project CI (configure me)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  configure-ci:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo 'Configure actual build/lint/test commands in this file before treating it as a required status check.'
+          exit 1
