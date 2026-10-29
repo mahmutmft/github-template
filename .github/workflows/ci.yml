@@ -1,14 +1,31 @@
-# Example CI workflow. Enable and customize it for the project's actual language / commands.
-# This file intentionally does not claim that project tests passed before commands are configured.
-name: Project CI (configure me)
+
+name: CI
+
 on:
-  workflow_dispatch:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
 permissions:
   contents: read
+
 jobs:
-  configure-ci:
+  repository-check:
+    name: Repository Check
     runs-on: ubuntu-latest
+
     steps:
-      - run: |
-          echo 'Configure actual build/lint/test commands in this file before treating it as a required status check.'
-          exit 1
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check required files
+        shell: bash
+        run: |
+          for file in README.md AGENTS.md; do
+            if [ ! -f "$file" ]; then
+              echo "::error::Missing required file: $file"
+              exit 1
+            fi
+          done
+          echo "Repository structure OK"
